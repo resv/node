@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<style>
+			body {
+				background-image: linear-gradient(to bottom right, #000, #fff);
+			}
+			#register {
+				position: absolute;
+				right:10px;
+				top: 10px;
+				font-size: 2em;
+			}
+			.overlay {
+				width: 100%;
+				height: 100%;
+				background-color: black;
+				opacity: 0;
+				z-index: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+				transition-property: opacity;
+				transition-duration: 1s;
+				transition-timing-function: ease;
+				transition-delay: 0.25s;
+			}
+			.dialog {
+				position: fixed;
+				top: 200px;
+				left: 30%;
+				width: 40%;
+				height: 188px;
+				border: groove 5px black;
+				background-color: white;
+				opacity: 0;
+				z-index: 0;
+				padding: 15px;
+				transition-property: opacity;
+				transition-duration: 1s;
+				transition-timing-function: ease;
+			}
+			.textbox {
+				width: 200px;
+			}
+			.dialog label {
+				display: inline-block;
+				width: 18%;
+				text-align: right;
+			}
+			.showOvr {
+				opacity: 0.2;
+				z-index: 10;
+				transition-property: opacity;
+				transition-duration: 1s;
+				transition-timing-function: ease;
+				transition-delay: 0;
+			}
+			.showDlg {
+				opacity: 1;
+				z-index: 20;
+				transition-property: opacity;
+				transition-duration: 1s;
+				transition-timing-function: ease;
+				transition-delay: 0.5s;
+			}
+		</style>
+		<script>
+			function showDialog(show) {
+				var overlay = document.getElementById('overlay');
+				var dialog = document.getElementById('dialog');
+				if (show) {
+					overlay.classList.add('showOvr');
+					dialog.classList.add('showDlg');
+					var userId = document.getElementById("userId");
+					userId.focus();
+				} else {
+					overlay.classList.remove('showOvr');
+					dialog.classList.remove('showDlg');
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="overlay" class="overlay"></div>
+		<input id="register" type="button" value="Register" onclick="showDialog(true)"/>
+		<div id="dialog" class="dialog">
+			<form id="registration" method="POST">
+				<p>
+					<label for="userId">User Id:</label>
+					<input id="userId" class="textbox" type="text" name="userId" required />
+				<p>
+				<p>
+					<label for="pwd">Password:</label>
+					<input class="textbox" type="password" name="pwd" required/>
+				<p>
+				<p>
+					<label for="email">EMail Address:</label>
+					<input class="textbox" type="email" name="email" required/>
+				<p>
+				<p>
+					<label for="receiveEmails">Receive Emails:</label>
+					<input type="checkbox" checked name="receiveEmails"/>
+				</p>
+				<p>
+					<input type="button" value="Cancel" onclick="showDialog(false)"/>
+					<input type="submit" value="Register"/>
+				</p>
+			</form>
+		</div>
+	</body>
+</html>
