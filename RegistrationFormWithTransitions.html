@@ -63,6 +63,16 @@
 				transition-timing-function: ease;
 				transition-delay: 0.5s;
 			}
+			#thankYou {
+				margin-top: 15%;
+				text-align: center;
+				color: white;
+			}
+			#errMsg {
+				display: inline-block;
+				margin-left: 10px;
+				color: red;
+			}
 		</style>
 		<script>
 			function showDialog(show) {
@@ -77,6 +87,29 @@
 					overlay.classList.remove('showOvr');
 					dialog.classList.remove('showDlg');
 				}
+			}
+			function submitForm() {
+				var request = new XMLHttpRequest();
+				var inputs = document.getElementsByTagName('input');
+				var params = '';
+				for(var i=0;i<inputs.length;++i) {
+					var inp = inputs[i];
+					if (params.length > 0) params += '&';
+					params += (inp.name + '=' + inp.value);
+				}
+				params = encodeURI(params);
+				request.open('POST', '', true);
+				request.onreadystatechange = () => {
+					if (request.readyState==4 && request.status == 200) {
+						var ty = document.getElementById('thankYou');
+						ty.innerHTML = request.response;
+						showDialog(false);
+					} else {
+						var errMsg = document.getElementById('errMsg');
+						errMsg.innerText = request.response;
+					}
+				};
+				request.send(params);
 			}
 		</script>
 	</head>
@@ -103,9 +136,12 @@
 				</p>
 				<p>
 					<input type="button" value="Cancel" onclick="showDialog(false)"/>
-					<input type="submit" value="Register"/>
+					<input type="button" value="Register" onclick="submitForm()"/>
+					<span id="errMsg"></span>
 				</p>
 			</form>
+		</div>
+		<div id="thankYou">
 		</div>
 	</body>
 </html>
